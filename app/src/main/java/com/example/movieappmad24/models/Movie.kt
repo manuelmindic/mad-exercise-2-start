@@ -151,3 +151,12 @@ fun getMovies(): List<Movie> {
 
         )
 }
+
+fun getMovie(movieId : String?) : Movie?{
+    var movie: Movie? = null;
+    for(i in getMovies()){
+        if (i.id.equals(movieId))
+            movie = i;
+    }
+    return movie;
+}
