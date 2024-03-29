@@ -48,6 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.movieappmad24.SimpleBottomAppBar
+import com.example.movieappmad24.SimpleTopAppBar
 import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.navigation.Screen.Detail.passId
 import com.example.movieappmad24.models.Movie
@@ -63,39 +65,10 @@ fun HomeScreen(navController : NavController) {
     ) {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    title = {
-                        Text("Manus Movie App")
-                    }
-                )
+                SimpleTopAppBar(content = "homescreen", title = "Manus Movie App", navController = navController)
             },
             bottomBar = {
-                BottomAppBar() {
-                    NavigationBarItem(
-                        onClick = {},
-                        selected = true,
-                        label = { Text (text = "Home") },
-                        icon = {
-                            Icon(
-                                Icons.Filled.Home,
-                                contentDescription = "Home",)
-                        }
-                    )
-                    NavigationBarItem(
-                        onClick = { navController.navigate(route = Screen.Watchlist.route)},
-                        selected = true,
-                        label = { Text (text = "Watchlist") },
-                        icon = {
-                            Icon(
-                                Icons.Filled.Star,
-                                contentDescription = "Watchlist",)
-                        }
-                    )
-                }
+                SimpleBottomAppBar(navController = navController)
             },
             content = {MovieList(getMovies(), navController)}
         )

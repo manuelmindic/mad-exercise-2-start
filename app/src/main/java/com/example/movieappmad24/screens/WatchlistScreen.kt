@@ -18,6 +18,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.movieappmad24.SimpleBottomAppBar
+import com.example.movieappmad24.SimpleTopAppBar
 import com.example.movieappmad24.models.getMovies
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,39 +33,10 @@ fun WatchlistScreen(navController: NavController){
     ) {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    title = {
-                        Text("Your Watchlist!")
-                    }
-                )
+                SimpleTopAppBar(content = "watchlistscreen", title = "Your Watchlist!", navController = navController)
             },
             bottomBar = {
-                BottomAppBar() {
-                    NavigationBarItem(
-                        onClick = {navController.popBackStack()},
-                        selected = true,
-                        label = { Text (text = "Home") },
-                        icon = {
-                            Icon(
-                                Icons.Filled.Home,
-                                contentDescription = "Home",)
-                        }
-                    )
-                    NavigationBarItem(
-                        onClick = {},
-                        selected = true,
-                        label = { Text (text = "Watchlist") },
-                        icon = {
-                            Icon(
-                                Icons.Filled.Star,
-                                contentDescription = "Watchlist",)
-                        }
-                    )
-                }
+                SimpleBottomAppBar(navController = navController)
             },
             content = {MovieList(getMovies(), navController)}
         )
