@@ -1,7 +1,6 @@
 package com.example.movieappmad24.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,17 +15,18 @@ fun Navigation() {
     val navController = rememberNavController() // create a NavController instance
     NavHost(
         navController = navController, // pass the NavController to NavHost
-        startDestination = "homescreen"
+        startDestination = Screen.Home.route
     ) { // pass a start destination
-        composable(route = "homescreen"){
+        composable(route = Screen.Home.route){
             HomeScreen(navController)
         }
-        composable("detailscreen/{movieId}",
+        composable(
+            Screen.Detail.passId("{movieId}"),
             arguments = listOf(navArgument(name = "movieId") {type = NavType.StringType})
         ){ backStackEntry ->
             DetailScreen(movieId = backStackEntry.arguments?.getString("movieId"), navController)
         }
-        composable(route = "watchlistscreen"){
+        composable(route = Screen.Watchlist.route){
             WatchlistScreen(navController)
         }
     }

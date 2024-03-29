@@ -48,6 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.movieappmad24.navigation.Screen
+import com.example.movieappmad24.navigation.Screen.Detail.passId
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 
@@ -84,7 +86,7 @@ fun HomeScreen(navController : NavController) {
                         }
                     )
                     NavigationBarItem(
-                        onClick = {navController.navigate("watchlistscreen")},
+                        onClick = { navController.navigate(route = Screen.Watchlist.route)},
                         selected = true,
                         label = { Text (text = "Watchlist") },
                         icon = {
@@ -103,7 +105,7 @@ fun HomeScreen(navController : NavController) {
 @Composable
 fun MovieList(movieList:List<Movie> = getMovies(), navController: NavController){
     LazyColumn{
-        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = {id -> navController.navigate("detailScreen/$id")})}
+        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = {id -> navController.navigate(route = passId(id))})}
     }
 }
 

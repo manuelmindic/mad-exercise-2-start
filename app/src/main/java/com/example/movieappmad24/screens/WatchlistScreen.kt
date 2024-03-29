@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +54,7 @@ fun WatchlistScreen(navController: NavController){
                         }
                     )
                     NavigationBarItem(
-                        onClick = {navController.navigate("watchlistscreen")},
+                        onClick = {},
                         selected = true,
                         label = { Text (text = "Watchlist") },
                         icon = {
