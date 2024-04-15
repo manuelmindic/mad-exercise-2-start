@@ -21,11 +21,12 @@ import androidx.navigation.NavController
 import com.example.movieappmad24.SimpleBottomAppBar
 import com.example.movieappmad24.SimpleTopAppBar
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.viewmodels.MoviesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun WatchlistScreen(navController: NavController){
+fun WatchlistScreen(navController: NavController, moviesViewModel: MoviesViewModel){
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -38,7 +39,7 @@ fun WatchlistScreen(navController: NavController){
             bottomBar = {
                 SimpleBottomAppBar(navController = navController)
             },
-            content = {MovieList(getMovies(), navController)}
+            content = {MovieList(movieList = moviesViewModel.favoriteMovies, navController, viewModel = moviesViewModel)}
         )
     }
 }

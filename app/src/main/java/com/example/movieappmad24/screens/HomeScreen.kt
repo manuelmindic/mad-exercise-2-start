@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -54,11 +55,12 @@ import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.navigation.Screen.Detail.passId
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.viewmodels.MoviesViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun HomeScreen(navController : NavController) {
+fun HomeScreen(navController : NavController, moviesViewModel: MoviesViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -70,21 +72,21 @@ fun HomeScreen(navController : NavController) {
             bottomBar = {
                 SimpleBottomAppBar(navController = navController)
             },
-            content = {MovieList(getMovies(), navController)}
+            content = {MovieList(movieList = moviesViewModel.movies, navController = navController, viewModel = moviesViewModel)}
         )
     }
 }
 
 @Composable
-fun MovieList(movieList:List<Movie> = getMovies(), navController: NavController){
+fun MovieList(movieList:List<Movie> = getMovies(), navController: NavController, viewModel: MoviesViewModel){
     LazyColumn{
-        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = {id -> navController.navigate(route = passId(id))})}
+        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = {id -> navController.navigate(route = passId(id))}, onFavoriteClick = {movieId -> viewModel.toggleFavoriteMovie(movieId) })}
     }
 }
 
 // Method partially from class in MAD from Leon
 @Composable
-fun MovieRow(movie: Movie, onItemClick: (String) -> Unit ={} ){
+fun MovieRow(movie: Movie, onItemClick: (String) -> Unit ={}, onFavoriteClick: (String) -> Unit = {}, isFavorite: Boolean = false ){
     var expanded by remember { mutableStateOf(false) }
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -111,8 +113,15 @@ fun MovieRow(movie: Movie, onItemClick: (String) -> Unit ={} ){
                         .padding(10.dp),
                     contentAlignment = Alignment.TopEnd)
                 { Icon(
+                    modifier = Modifier.clickable {
+                        onFavoriteClick(movie.id) },
                     tint = MaterialTheme.colorScheme.secondary,
-                    imageVector = Icons.Default.FavoriteBorder,
+                    imageVector =
+                    if (movie.isFavorite) {
+                        Icons.Filled.Favorite
+                    } else {
+                        Icons.Default.FavoriteBorder
+                    },
                     contentDescription = "Add Favorites")
                 }
             }

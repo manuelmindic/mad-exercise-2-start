@@ -40,11 +40,12 @@ import com.example.movieappmad24.SimpleTopAppBar
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovie
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.viewmodels.MoviesViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(movieId : String?, navController: NavController) {
+fun DetailScreen(movieId : String?, navController: NavController, moviesViewModel: MoviesViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
