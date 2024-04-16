@@ -59,7 +59,10 @@ fun DetailScreen(movieId : String?, navController: NavController, moviesViewMode
             }
         ){ innerPadding ->
             Column {
-                MovieRow(modifier = Modifier.padding(innerPadding), movie = getMovie(movieId)!!, onFavoriteClick = { moviesViewModel.toggleFavoriteMovie(movieId!!) })
+                MovieRow(
+                    modifier = Modifier.padding(innerPadding),
+                    movie = moviesViewModel.getMovie(movieId!!)!!,
+                    onFavoriteClick = { moviesViewModel.toggleFavoriteMovie(movieId!!) })
                 LazyRow {
                     items(getMovie(movieId)!!.images) {
                             image -> AsyncImage(

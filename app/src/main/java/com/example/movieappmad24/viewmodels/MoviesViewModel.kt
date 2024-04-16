@@ -14,6 +14,10 @@ class MoviesViewModel : ViewModel() {
     val favoriteMovies: List<Movie>
         get() = _movies.filter { movie -> movie.isFavorite }
 
+    fun getMovie(movieId: String): Movie? {
+        return _movies.find { it.id == movieId }
+    }
+
     fun toggleFavoriteMovie(movieId: String) = _movies.find { it.id == movieId }?.let { movie ->
         movie.isFavorite = !movie.isFavorite
     }
