@@ -43,6 +43,7 @@ import com.example.movieappmad24.SimpleTopAppBar
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovie
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.player.ExoPlayer
 import com.example.movieappmad24.viewmodels.MoviesViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -62,7 +63,8 @@ fun DetailScreen(movieId : String?, navController: NavController, moviesViewMode
                 MovieRow(
                     modifier = Modifier.padding(innerPadding),
                     movie = moviesViewModel.getMovie(movieId!!)!!,
-                    onFavoriteClick = { moviesViewModel.toggleFavoriteMovie(movieId!!) })
+                    onFavoriteClick = { moviesViewModel.toggleFavoriteMovie(movieId) })
+                ExoPlayer().Player()
                 LazyRow {
                     items(getMovie(movieId)!!.images) {
                             image -> AsyncImage(
