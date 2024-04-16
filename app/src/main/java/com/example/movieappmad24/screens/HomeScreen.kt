@@ -17,24 +17,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +45,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.SimpleBottomAppBar
 import com.example.movieappmad24.SimpleTopAppBar
-import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.navigation.Screen.Detail.passId
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
@@ -71,24 +64,34 @@ fun HomeScreen(navController : NavController, moviesViewModel: MoviesViewModel) 
             },
             bottomBar = {
                 SimpleBottomAppBar(navController = navController)
-            },
-            content = {MovieList(movieList = moviesViewModel.movies, navController = navController, viewModel = moviesViewModel)}
-        )
+            }
+        ){ innerPadding ->
+            MovieList(
+                modifier = Modifier.padding(innerPadding),
+                movieList = moviesViewModel.movies,
+                navController = navController,
+                viewModel = moviesViewModel
+            )
+        }
     }
 }
 
 @Composable
-fun MovieList(movieList:List<Movie> = getMovies(), navController: NavController, viewModel: MoviesViewModel){
-    LazyColumn{
-        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = {id -> navController.navigate(route = passId(id))}, onFavoriteClick = {movieId -> viewModel.toggleFavoriteMovie(movieId) })}
+fun MovieList(modifier: Modifier, movieList:List<Movie> = getMovies(), navController: NavController, viewModel: MoviesViewModel){
+    LazyColumn(modifier=modifier){
+        items(movieList) {mvl -> MovieRow(movie = mvl, onItemClick = { id -> navController.navigate(route = passId(id))}, onFavoriteClick = { movieId -> viewModel.toggleFavoriteMovie(movieId) })}
     }
 }
 
 // Method partially from class in MAD from Leon
 @Composable
-fun MovieRow(movie: Movie, onItemClick: (String) -> Unit ={}, onFavoriteClick: (String) -> Unit = {}, isFavorite: Boolean = false ){
+fun MovieRow(
+    modifier: Modifier = Modifier,
+    movie: Movie,
+    onItemClick: (String) -> Unit ={},
+    onFavoriteClick: (String) -> Unit = {}){
     var expanded by remember { mutableStateOf(false) }
-    Card(modifier = Modifier
+    Card(modifier = modifier
         .fillMaxWidth()
         .padding(5.dp)
         .clickable { onItemClick(movie.id) },

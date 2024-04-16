@@ -2,6 +2,7 @@ package com.example.movieappmad24.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
@@ -38,8 +39,14 @@ fun WatchlistScreen(navController: NavController, moviesViewModel: MoviesViewMod
             },
             bottomBar = {
                 SimpleBottomAppBar(navController = navController)
-            },
-            content = {MovieList(movieList = moviesViewModel.favoriteMovies, navController, viewModel = moviesViewModel)}
-        )
+            }
+        ){ innerPadding ->
+            MovieList(
+                modifier = Modifier.padding(innerPadding),
+                movieList = moviesViewModel.favoriteMovies,
+                navController,
+                viewModel = moviesViewModel
+            )
+        }
     }
 }

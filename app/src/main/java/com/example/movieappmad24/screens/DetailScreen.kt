@@ -2,6 +2,7 @@ package com.example.movieappmad24.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,9 +31,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
@@ -53,23 +56,22 @@ fun DetailScreen(movieId : String?, navController: NavController, moviesViewMode
         Scaffold(
             topBar = {
                 SimpleTopAppBar(content = "detail", title = movieId!!, navController = navController)
-            },
-            content = {
-                Column {
-                    MovieRow(movie = getMovie(movieId)!!)
-                    LazyRow {
-                        items(getMovie(movieId)!!.images) {
+            }
+        ){ innerPadding ->
+            Column {
+                MovieRow(modifier = Modifier.padding(innerPadding), movie = getMovie(movieId)!!, onFavoriteClick = { moviesViewModel.toggleFavoriteMovie(movieId!!) })
+                LazyRow {
+                    items(getMovie(movieId)!!.images) {
                             image -> AsyncImage(
-                                model = image,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .clip(shape = RoundedCornerShape(8.dp))
-                            )
-                        }
+                        model = image,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clip(shape = RoundedCornerShape(8.dp))
+                    )
                     }
                 }
             }
-        )
+        }
     }
 }
